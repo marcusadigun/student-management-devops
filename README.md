@@ -1,61 +1,65 @@
-# HMS (Hostel Management System)
+# HMS - Hostel Management System (DevOps Edition) 🚀
 
-This is a Student Management System (HMS) project built with Python. It provides authentication, chat, complaints, dashboard, and hostel management features.
+## 🏗️ Architecture
+This project demonstrates a production-grade **3-Tier Architecture** deployment using **Infrastructure as Code (IaC)**. The application is decoupled into isolated layers for security and scalability.
 
-## Prerequisites
+* **Web Layer (The Waiter):** Nginx (Reverse Proxy & Load Balancer) - *Port 8080*
+* **App Layer (The Kitchen):** FastAPI (Python 3.12) running via Systemd - *Internal Port 8000*
+* **Data Layer (The Fridge):** PostgreSQL 14 (Isolated Database Node) - *Internal Port 5432*
 
-- Python 3.10 or higher
-- [pip](https://pip.pypa.io/en/stable/)
-- Postgres/ pgAdmin
+## 🛠️ Tech Stack
+* **Infrastructure:** Vagrant, VirtualBox, Shell Scripting (Bash)
+* **Configuration Management:** Automated Provisioning Scripts
+* **Backend:** FastAPI, SQLAlchemy, Pydantic
+* **Database:** PostgreSQL
+* **OS:** Ubuntu 22.04 LTS (Jammy Jellyfish)
 
-## Setup Instructions
+## 🚀 How to Deploy (Local Production Simulation)
 
-1. **Clone the repository**
+### Prerequisites
+* [VirtualBox](https://www.virtualbox.org/) or VMware Fusion
+* [Vagrant](https://www.vagrantup.com/)
+* Git
 
-   ```bash
-   cd hms
-   ```
-
-2. **Verify Python Installation**
+### Installation
+1.  **Clone the repository**:
     ```bash
-    python3 --version
+    git clone [https://github.com/marcusadigun/student-management-devops.git](https://github.com/marcusadigun/student-management-devops.git)
+    cd student-management-devops
     ```
 
-2. **(Optional) Create and activate a virtual environment**
+2.  **Secure Configuration**:
+    Create a `.env.prod` file in the root directory (do not commit this file!).
+    ```bash
+    # Database Connection (Connects to the DB VM)
+    DATABASE_URL=postgresql://hms_user:securepassword@192.168.56.10:5432/hms_db
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+    # Secrets
+    JWT_KEY=your_secret_key
+    GROQ_API_KEY=your_api_key
+    
+    # Email Config
+    MAIL_FROM=your_email@gmail.com
+    MAIL_USERNAME=your_email@gmail.com
+    MAIL_PASSWORD=your_app_password
+    MAIL_SERVER=smtp.gmail.com
+    ```
 
-3. **Install dependencies**
+3.  **Provision Infrastructure**:
+    Run the following command to spin up the Web, App, and DB servers automatically:
+    ```bash
+    vagrant up
+    ```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+4.  **Access the Application**:
+    Visit `http://localhost:8080` to view the application via the Nginx Reverse Proxy.
 
-4. **Run the application**
-
-   ```bash
-   uvicorn main:app --reload --port 8000
-   ```
-
-5. **Access the application**
-
-   Open your browser and go to `http://127.0.0.1:8000` (or the port specified in your app).
-
-## Project Structure
-
-- `main.py` - Entry point of the application
-- `src/` - Source code modules
-- `templates/` - HTML templates
-- `requirements.txt` - Python dependencies
-
-## Notes
-
-- Make sure to configure any environment variables or database settings as required in `src/common/config.py`.
-- For development, you may want to enable debug mode in your application settings.
-
-## License
-
-This project is for educational purposes.
+## 📂 Project Structure
+```text
+├── Vagrantfile             # Infrastructure definition (3 VMs)
+├── scripts/                # Provisioning scripts
+│   ├── install_db.sh       # Sets up PostgreSQL
+│   ├── install_app.sh      # Sets up Python & FastAPI Service
+│   └── install_web.sh      # Sets up Nginx Reverse Proxy
+├── src/                    # Application Source Code
+└── requirements.txt        # Python Dependencies
