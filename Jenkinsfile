@@ -36,7 +36,6 @@ pipeline {
     post {
         always {
             // Cleanup: Remove the image to save space on the server
-            // In a real job, you would PUSH this to DockerHub first, then delete.
             echo 'Cleaning up workspace...'
             cleanWs()
         }
