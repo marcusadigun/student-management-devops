@@ -1,0 +1,89 @@
+---
+- name: Configure HMS Server
+  hosts: hms_servers
+  become: true
+  vars_files:
+    - vars.yml
+
+  tasks:
+    # --- DOCKER SETUP ---
+    - name: Install required system packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - nginx
+        state: present
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install Docker SDK for Python
+      pip:
+        name: docker
+        break_system_packages: true
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create HMS network
+      docker_network:
+        name: hms_net
+
+    # --- APP DEPLOYMENT (RDS VERSION) ---
+    # DELETED: "Start Postgres Container" task is gone!
+
+    - name: Start HMS App Container
+      docker_container:
+        name: hms-app
+        image: marcusadigun/hms-app:v14
+        state: started
+        restart_policy: always
+        ports:
+          - "127.0.0.1:8000:8000" # Locked to Localhost (Security)
+        networks:
+          - name: hms_net
+        env:
+          DATABASE_URL: "{{ db_url }}" # Points to AWS RDS now
+          JWT_KEY: "{{ jwt_key }}"
+          GROQ_API_KEY: "{{ groq_api_key }}"
+          ACCESS_TOKEN_EXPIRES: "60"
+          MAIL_USERNAME: "{{ mail_username }}"
+          MAIL_PASSWORD: "{{ mail_password }}"
+          MAIL_FROM: "{{ mail_from }}"
+          MAIL_SERVER: "{{ mail_server }}"
+          MAIL_PORT: "{{ mail_port }}"
+
+    # --- NGINX SETUP ---
+    - name: Remove default Nginx config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Copy Nginx config
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/sites-available/hms
+      notify: Restart Nginx
+
+    - name: Enable Nginx config
+      file:
+        src: /etc/nginx/sites-available/hms
+        dest: /etc/nginx/sites-enabled/hms
+        state: link
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

@@ -1,26 +1,19 @@
-.env
-.env.prod
-venv/
-__pycache__/
-.vagrant/
-.DS_Store
-*.pyc
-
-
-*.pem
-*.pub
-
-# Local state files (Contains sensitive info and current IP addresses)
+# --- Terraform ---
+.terraform/
 *.tfstate
 *.tfstate.backup
-.terraform/
-
-# Sensitive variables (Your AWS Keys, etc.)
 *.tfvars
-*.tfvars.json
+*.pem
+.terraform.lock.hcl
 
-# Crash logs
-crash.log
+# --- Ansible ---
+ansible/vars.yml
+*.retry
 
-#Secret file for terraform
-.tfvars
+# --- Python & Junk ---
+venv/
+__pycache__/
+*.log
+.DS_Store
+.env.prod
+.vagrant/

@@ -1,0 +1,15 @@
+# Database Config
+db_user: "postgres"
+db_password: "CHANGE_ME"
+db_name: "hms_db"
+
+# App Config
+# Use this format for RDS: postgresql://USER:PASS@ENDPOINT:5432/DB_NAME
+db_url: "postgresql://user:pass@rds-endpoint:5432/hms_db"
+jwt_key: "CHANGE_ME"
+groq_api_key: "CHANGE_ME"
+mail_username: "admin@example.com"
+mail_password: "CHANGE_ME"
+mail_from: "admin@example.com"
+mail_server: "smtp.gmail.com"
+mail_port: "587"
