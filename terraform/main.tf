@@ -82,7 +82,3 @@ resource "aws_instance" "app_server" {
     Name = "HMS-Automated-Server"
   }
 }
-
-output "ssh_command" {
-  value = "ssh -i hms-key.pem ubuntu@${aws_instance.app_server.public_ip}"
-}
