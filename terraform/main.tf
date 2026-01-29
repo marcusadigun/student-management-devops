@@ -45,7 +45,7 @@ resource "aws_security_group" "app_sg" {
 }
 
 
-resource "aws_instance" "app_server" {
+resource "aws_instance" "hms_server" {
   ami           = "ami-0c7217cdde317cfec" # Ubuntu 22.04
   instance_type = "t3.micro"
 
