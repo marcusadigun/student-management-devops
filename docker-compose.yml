@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Container 1: The Database 🐘
+  db:
+    image: postgres:15
+    container_name: hms-db
+    restart: always
+    environment:
+      POSTGRES_USER: hms_user
+      POSTGRES_PASSWORD: supersecretpassword
+      POSTGRES_DB: hms_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Container 2: Your App 🐍
+  web:
+    image: hms-app:v14  # <--- MAKE SURE THIS MATCHES YOUR IMAGE TAG
+    container_name: hms-web
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      # Notice the host is now 'db', not localhost
+      DATABASE_URL: postgresql://hms_user:supersecretpassword@db:5432/hms_db
+      JWT_KEY: "super-secret-key-123"
+      ACCESS_TOKEN_EXPIRES: 30
+      GROQ_API_KEY: "gsk_fake_key"
+      MAIL_USERNAME: "user@example.com"
+      MAIL_PASSWORD: "fake_password"
+      MAIL_FROM: "admin@hms.com"
+      MAIL_PORT: 587
+      MAIL_SERVER: "smtp.gmail.com"
+
+volumes:
+  postgres_data:
