@@ -56,4 +56,18 @@ Vagrant.configure("2") do |config|
 
    # web.vm.provision "shell", path: "scripts/install_web.sh"
   end
+
+  # --- VM 4: Jenkins Server (The Automator) ---
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.hostname = "jenkins-server"
+    jenkins.vm.network "private_network", ip: "192.168.56.20"
+    
+    jenkins.vm.provider "vmware_desktop" do |v|
+      v.gui = true
+      v.memory = "2048" # Jenkins is hungry, it needs 2GB!
+      v.allowlist_verified = true
+    end
+
+   # jenkins.vm.provision "shell", path: "scripts/install_jenkins.sh"
+  end
 end

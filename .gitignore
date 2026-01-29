@@ -5,3 +5,19 @@ __pycache__/
 .vagrant/
 .DS_Store
 *.pyc
+
+
+*.pem
+*.pub
+
+# Local state files (Contains sensitive info and current IP addresses)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Sensitive variables (Your AWS Keys, etc.)
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
