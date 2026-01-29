@@ -21,3 +21,6 @@ __pycache__/
 
 # Crash logs
 crash.log
+
+#Secret file for terraform
+.tfvars

@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 resource "tls_private_key" "generated_key" {
@@ -61,10 +61,25 @@ resource "aws_instance" "app_server" {
               sudo systemctl start docker
               sudo systemctl enable docker
               sudo usermod -aG docker ubuntu
-              EOF
+              
 
+              # Run the Database
+              sudo docker run -d --name hms-db \
+                -e POSTGRES_USER=user \
+                -e POSTGRES_PASSWORD=${var.db_password} \
+                -e POSTGRES_DB=hms_db \
+                postgres:15
+
+              # Run the App (Using the environment variables we found earlier)
+              sudo docker run -d --name hms-app -p 80:8000 \
+                -e DATABASE_URL="postgresql://user:password@localhost:5432/hms_db" \
+                -e JWT_KEY="${var.jwt_key}" \
+                -e ACCESS_TOKEN_EXPIRES=60 \
+                -e GROQ_API_KEY="${var.groq_api_key}" \
+                marcusadigun/hms-app:v14
+              EOF
   tags = {
-    Name = "HMS-Production-Server"
+    Name = "HMS-Automated-Server"
   }
 }
 
