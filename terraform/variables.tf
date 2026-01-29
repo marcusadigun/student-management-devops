@@ -1,21 +1,50 @@
 variable "aws_region" {
+  type    = string
   default = "us-east-1"
 }
 
-variable "db_password" {
-  description = "Password for the database"
+variable "db_url" {
+  description = "Full Database Connection String"
   type        = string
-  sensitive   = true
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "access_token_expires" {
+  type    = number
+  default = 60
 }
 
 variable "groq_api_key" {
-  description = "Groq API Key"
-  type        = string
-  sensitive   = true
+  type      = string
+  sensitive = true
 }
 
 variable "jwt_key" {
-  description = "JWT Key"
-  type        = string
-  sensitive   = true
+  type      = string
+  sensitive = true
+}
+
+variable "mail_username" {
+  type = string
+}
+
+variable "mail_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "mail_from" {
+  type = string
+}
+
+variable "mail_server" {
+  type = string
+}
+
+variable "mail_port" {
+  type = string
 }
