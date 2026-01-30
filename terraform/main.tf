@@ -44,7 +44,7 @@ resource "aws_security_group" "app_sg" {
   }
 }
 
-# --- 1. THE APP SERVER ---
+#  APP SERVER 
 resource "aws_instance" "hmsapp_server" {
   ami                    = "ami-0c7217cdde317cfec"
   instance_type          = "t3.micro"
@@ -56,7 +56,7 @@ resource "aws_instance" "hmsapp_server" {
   }
 }
 
-# --- 2. THE DATABASE INFRASTRUCTURE ---
+# DATABASE INFRASTRUCTURE 
 
 resource "aws_security_group" "rds_sg" {
   name        = "hms-rds-sg"
