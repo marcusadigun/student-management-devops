@@ -71,4 +71,6 @@ CPU Speedometer: Tracks rate(container_cpu_usage_seconds_total) to identify CPU 
 
 Memory Health: Tracks container_memory_usage_bytes to detect potential memory leaks in the Python backend.
 
+![Grafana Dashboard](https://github.com/user-attachments/assets/83591064-bafc-476e-860d-64609d5c8acb)
+
 
