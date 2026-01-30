@@ -38,3 +38,37 @@ cd terraform
 terraform init
 terraform apply -auto-approve
 ```
+
+📊 Observability & Monitoring
+To ensure high availability and performance, the application includes a comprehensive local monitoring stack. This infrastructure allows for real-time tracking of container health, resource consumption, and potential memory leaks.
+
+🛠 The Stack
+Component,Function
+Prometheus,Scrapes and stores time-series metrics from Docker containers every 15s.
+Grafana,Visualizes metrics via interactive dashboards (CPU Load, Memory Usage, I/O).
+cAdvisor,Google's container advisor; exposes raw resource usage data from the Docker engine.
+
+🚀 How to Launch Mission Control
+The monitoring stack is decoupled from the main application to ensure modularity.
+
+Start the Monitoring Infrastructure:
+
+Bash
+
+cd monitoring
+docker compose up -d
+Access the Dashboards:
+
+Grafana: http://localhost:3000 (Default: admin/admin)
+
+Prometheus Targets: http://localhost:9090/targets
+
+cAdvisor Stream: http://localhost:8081
+
+View Real-Time Metrics:
+
+CPU Speedometer: Tracks rate(container_cpu_usage_seconds_total) to identify CPU throttling.
+
+Memory Health: Tracks container_memory_usage_bytes to detect potential memory leaks in the Python backend.
+
+
