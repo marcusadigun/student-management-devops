@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Container 1: The Database 🐘
   db:
     image: postgres:15
     container_name: hms-db
@@ -15,9 +14,8 @@ services:
     ports:
       - "5432:5432"
 
-  # Container 2: Your App 🐍
   web:
-    image: hms-app:v14  # <--- MAKE SURE THIS MATCHES YOUR IMAGE TAG
+    image: hms-app
     container_name: hms-web
     restart: always
     ports:
@@ -25,7 +23,6 @@ services:
     depends_on:
       - db
     environment:
-      # Notice the host is now 'db', not localhost
       DATABASE_URL: postgresql://hms_user:supersecretpassword@db:5432/hms_db
       JWT_KEY: "super-secret-key-123"
       ACCESS_TOKEN_EXPIRES: 30
