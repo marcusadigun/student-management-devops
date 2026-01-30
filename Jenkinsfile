@@ -18,7 +18,7 @@ pipeline {
                 echo 'Running Smoke Test...'
                 sh '''
                     . venv/bin/activate
-                    python3 -c "import fastapi; print('✅ FastAPI is ready!')"
+                    python3 -c "import fastapi; print('FastAPI is ready!')"
                 '''
             }
         }
@@ -27,7 +27,6 @@ pipeline {
             steps {
                 echo 'Building Docker Image...'
                 // This builds the image and tags it as "hms-app" with the current Build Number
-                // Example: hms-app:v4
                 sh "docker build -t hms-app:v${BUILD_NUMBER} ." 
             }
         }

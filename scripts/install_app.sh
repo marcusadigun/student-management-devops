@@ -22,16 +22,16 @@ fi
 # Activate and install deps
 source venv/bin/activate
 pip install --upgrade pip
-# Installing requirements (ignoring errors if some strict versions clash, but usually safe)
+# Installing requirements 
 pip install -r requirements.txt
 
 echo "--- 3. Creating Service File (Safe Mode) ---"
-# We delete the old file just in case
+# Delete the old file just in case
 sudo rm -f /etc/systemd/system/hms.service
 sudo touch /etc/systemd/system/hms.service
 sudo chmod 777 /etc/systemd/system/hms.service
 
-# Write the file line by line (No complex EOF blocks)
+
 echo "[Unit]" > /etc/systemd/system/hms.service
 echo "Description=HMS API Service" >> /etc/systemd/system/hms.service
 echo "After=network.target" >> /etc/systemd/system/hms.service
@@ -49,9 +49,9 @@ echo "WantedBy=multi-user.target" >> /etc/systemd/system/hms.service
 # Secure the file again
 sudo chmod 644 /etc/systemd/system/hms.service
 
-echo "--- 4. Starting App ---"
+echo " Starting App "
 sudo systemctl daemon-reload
 sudo systemctl enable hms
 sudo systemctl restart hms
 
-echo "--- ✅ App Server Provisioned Successfully ---"
+echo " App Server Provisioned Successfully "

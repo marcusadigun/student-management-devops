@@ -1,13 +1,12 @@
 #!/bin/bash
 set -e
 
-echo "--- 1. Installing Nginx ---"
+echo " Installing Nginx "
 sudo apt-get update
 sudo apt-get install -y nginx
 
-echo "--- 2. Configuring Nginx Reverse Proxy ---"
-# We create a new configuration file for your site
-# Note: 192.168.56.11 is the IP of your App Server
+echo " Configuring Nginx Reverse Proxy "
+# Create a new configuration file for the site
 sudo tee /etc/nginx/sites-available/hms > /dev/null <<EOF
 server {
     listen 80;
@@ -23,17 +22,17 @@ server {
 }
 EOF
 
-echo "--- 3. Enabling the Site ---"
-# Link the site to 'sites-enabled'
+echo " Enabling the Site "
+# Link the site to sites-enabled
 sudo ln -sf /etc/nginx/sites-available/hms /etc/nginx/sites-enabled/
 
-# Remove the default "Welcome to Nginx" site so it doesn't conflict
+# Remove the default "Welcome to Nginx"
 sudo rm -f /etc/nginx/sites-enabled/default
 
-echo "--- 4. Testing & Restarting Nginx ---"
+echo " Testing & Restarting Nginx "
 # Test config for syntax errors
 sudo nginx -t
 # Restart service
 sudo systemctl restart nginx
 
-echo "--- ✅ Web Server Provisioned Successfully ---"
+echo " Web Server Provisioned Successfully "

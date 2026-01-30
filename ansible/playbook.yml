@@ -6,7 +6,7 @@
     - vars.yml
 
   tasks:
-    # --- DOCKER SETUP ---
+    # DOCKER SETUP 
     - name: Install required system packages
       apt:
         name:
@@ -39,8 +39,7 @@
       docker_network:
         name: hms_net
 
-    # --- APP DEPLOYMENT (RDS VERSION) ---
-    # DELETED: "Start Postgres Container" task is gone!
+    # APP DEPLOYMENT (RDS VERSION)
 
     - name: Start HMS App Container
       docker_container:
@@ -49,7 +48,7 @@
         state: started
         restart_policy: always
         ports:
-          - "127.0.0.1:8000:8000" # Locked to Localhost (Security)
+          - "127.0.0.1:8000:8000" # Locked to Localhost 
         networks:
           - name: hms_net
         env:
@@ -63,7 +62,7 @@
           MAIL_SERVER: "{{ mail_server }}"
           MAIL_PORT: "{{ mail_port }}"
 
-    # --- NGINX SETUP ---
+    # NGINX SETUP 
     - name: Remove default Nginx config
       file:
         path: /etc/nginx/sites-enabled/default

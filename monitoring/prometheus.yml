@@ -8,4 +8,4 @@ scrape_configs:
 
   - job_name: 'docker-containers'
     static_configs:
-      - targets: ['cadvisor:8080'] # We will name our container 'cadvisor'
+      - targets: ['cadvisor:8080'] # name container 'cadvisor'
