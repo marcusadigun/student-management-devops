@@ -3,14 +3,14 @@
 # Stop on error
 set -e
 
-echo "--- 1. Installing Python 3.12 ---"
+echo " Installing Python 3.12 "
 sudo apt-get update
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt-get update
 sudo apt-get install -y python3.12 python3.12-venv python3-pip libpq-dev
 
-echo "--- 2. Setting up Virtual Environment ---"
+echo "Setting up Virtual Environment"
 cd /vagrant
 
 # Create venv if it doesn't exist
@@ -25,7 +25,7 @@ pip install --upgrade pip
 # Installing requirements 
 pip install -r requirements.txt
 
-echo "--- 3. Creating Service File (Safe Mode) ---"
+echo "Creating Service File (Safe Mode)"
 # Delete the old file just in case
 sudo rm -f /etc/systemd/system/hms.service
 sudo touch /etc/systemd/system/hms.service
